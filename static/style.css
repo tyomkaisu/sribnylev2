@@ -219,9 +219,11 @@ form button:hover {
   border-radius: 8px;
 }
 
+
 main {
-    padding-top: 70px;
+    padding-top: 80px;
 }
+
 
 /* --- Медіа-запити для мобільних --- */
 @media (max-width: 768px) {
@@ -230,6 +232,7 @@ main {
         padding: 15px 2px;
         text-align: center;
         position: static;
+        
     }
 
     main {
@@ -446,4 +449,10 @@ footer {
     font-weight: 600;
     font-size: 1rem;
     color: #7a6a4f;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
 }
