@@ -18,7 +18,46 @@
       allowfullscreen=""
       loading="lazy"
     ></iframe>
-    
+  </section>
+
+  <section id="reviews" style="margin-top: 40px;">
+    <h2>Відгуки</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul style="list-style:none; padding-left:0;">
+          {% for category, message in messages %}
+            <li style="color:
+                {% if category == 'success' %}green
+                {% elif category == 'danger' or category == 'error' %}red
+                {% elif category == 'warning' %}orange
+                {% else %}black{% endif %};
+                margin-bottom: 10px;">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% if reviews %}
+      {% for review in reviews %}
+        <article class="review" style="margin-bottom: 1em; padding: 10px; border-bottom: 1px solid #ccc;">
+          <p><strong>{{ review.name }}</strong> — "{{ review.text }}"</p>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p>Поки що немає відгуків. Станьте першим, хто залишить свій!</p>
+    {% endif %}
+
+    <h3>Залишити відгук</h3>
+    <form action="{{ url_for('contacts') }}" method="post" style="max-width: 400px;">
+      <label for="name">Ваше ім'я:</label><br>
+      <input type="text" id="name" name="name" required><br><br>
+
+      <label for="review">Ваш відгук:</label><br>
+      <textarea id="review" name="review" rows="4" required></textarea><br><br>
+
+      <button type="submit" style="padding: 8px 16px; background-color: #0066cc; color: white; border: none; cursor: pointer;">Відправити</button>
+    </form>
   </section>
 
 {% endblock %}

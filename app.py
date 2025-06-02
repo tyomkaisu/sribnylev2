@@ -39,7 +39,6 @@ def get_user_by_username(username):
         return {'id': row[0], 'username': row[1], 'password': row[2], 'is_admin': bool(row[3])}
     return None
 
-# Ось ця функція — перевіряє, чи є користувач з таким username
 def user_exists(username):
     return get_user_by_username(username) is not None
 
@@ -72,9 +71,29 @@ def init_db():
                 FOREIGN KEY (user_id) REFERENCES users(id)
             )
         ''')
-        admin_password = generate_password_hash("zxc")
+        # Додаємо таблицю для відгуків
+        c.execute('''
+            CREATE TABLE reviews (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                text TEXT NOT NULL
+            )
+        ''')
+        admin_password = generate_password_hash("123")
         c.execute('INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)', ("admin", admin_password, 1))
     else:
+        # Якщо таблиці reviews немає — створюємо
+        try:
+            c.execute('SELECT 1 FROM reviews LIMIT 1')
+        except sqlite3.OperationalError:
+            c.execute('''
+                CREATE TABLE reviews (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    text TEXT NOT NULL
+                )
+            ''')
+
         try:
             c.execute("ALTER TABLE reservations ADD COLUMN user_id INTEGER")
         except sqlite3.OperationalError:
@@ -83,6 +102,7 @@ def init_db():
             c.execute("ALTER TABLE reservations ADD COLUMN room_type TEXT NOT NULL DEFAULT 'Двомісна'")
         except sqlite3.OperationalError:
             pass
+
     conn.commit()
     conn.close()
 
@@ -180,9 +200,29 @@ def menu_category(category):
     data = categories[category]
     return render_template('menu_category.html', title=data['title'], dishes=data['dishes'])
 
-@app.route('/contacts')
+@app.route('/contacts', methods=['GET', 'POST'])
 def contacts():
-    return render_template('contacts.html')
+    conn = sqlite3.connect(DB)
+    c = conn.cursor()
+
+    if request.method == 'POST':
+        name = request.form.get('name')
+        text = request.form.get('review')
+
+        if not name or not text:
+            flash("Будь ласка, заповніть всі поля форми відгуку.", "warning")
+            return redirect(url_for('contacts'))
+
+        c.execute('INSERT INTO reviews (name, text) VALUES (?, ?)', (name, text))
+        conn.commit()
+        flash("Дякуємо за ваш відгук!", "success")
+        return redirect(url_for('contacts'))
+
+    c.execute('SELECT name, text FROM reviews ORDER BY id DESC')
+    reviews = [{'name': row[0], 'text': row[1]} for row in c.fetchall()]
+    conn.close()
+
+    return render_template('contacts.html', reviews=reviews)
 
 @app.route('/reservation', methods=['GET', 'POST'])
 @login_required
@@ -269,17 +309,17 @@ def login():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+        username = request.form['username']
+        password = request.form['password']
 
         user = get_user_by_username(username)
         if user and check_password_hash(user['password'], password):
             user_obj = User(user['id'], user['username'], user['is_admin'])
             login_user(user_obj)
-            flash("Вхід успішний!", "success")
+            flash("Вхід виконано успішно", "success")
             return redirect(url_for('index'))
         else:
-            flash("Неправильний логін або пароль.", "danger")
+            flash("Неправильний логін або пароль", "danger")
             return redirect(url_for('login'))
 
     return render_template('auth.html', active_form='login')
@@ -288,8 +328,8 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("Ви вийшли з системи.", "info")
+    flash("Ви вийшли з системи", "info")
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(debug=True)
