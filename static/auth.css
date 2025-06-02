@@ -172,3 +172,95 @@
     .alert-danger { background-color: #f44336; color: white; }
     .alert-warning { background-color: #ff9800; color: white; }
     .alert-info { background-color: #2196F3; color: white; }
+    /* 🔽 Мобільна адаптація */
+@media (max-width: 768px) {
+  body {
+    align-items: flex-start;
+    padding: 20px 10px;
+    height: auto;
+  }
+
+  .container {
+    width: 100%;
+    height: auto;
+    min-height: 600px;
+    overflow: hidden;
+    border-radius: 0;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .form-container {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.6s ease-in-out;
+  }
+
+  .sign-in-container,
+  .sign-up-container {
+    width: 100%;
+    height: auto;
+    padding: 40px 20px;
+  }
+
+  .container.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+  }
+
+  .container.right-panel-active .sign-up-container {
+    transform: translateX(0);
+    opacity: 1;
+    z-index: 5;
+  }
+
+  .overlay-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    transform: none !important;
+    z-index: 1;
+  }
+
+  .overlay {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transform: none !important;
+  }
+
+  .overlay-panel {
+    width: 100%;
+    padding: 30px 20px;
+    transform: none !important;
+    position: relative;
+    text-align: center;
+  }
+
+  .overlay-left,
+  .overlay-right {
+    transform: none !important;
+  }
+
+  .container.right-panel-active .overlay-left,
+  .container.right-panel-active .overlay-right {
+    transform: none !important;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .flashes {
+    position: static;
+    margin-bottom: 15px;
+  }
+}
