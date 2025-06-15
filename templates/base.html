@@ -187,23 +187,24 @@
       document.addEventListener("DOMContentLoaded", () => {
         const popup = document.getElementById("popup-flash");
         if (!popup) return;
-
 </div> <!-- /page-content -->
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // Popup
+    // Popup flash message
     const popup = document.getElementById("popup-flash");
+    const messageSpan = document.getElementById("popup-message");
+    
     if (popup) {
-      const messageSpan = document.getElementById("popup-message");
-      const closeBtn = popup.querySelector(".close-btn");
       const message = popup.dataset.message;
-      if (message) {
+      const closeBtn = popup.querySelector(".close-btn");
+
       if (message && messageSpan) {
         messageSpan.textContent = message;
         popup.style.opacity = 0;
         popup.style.display = "block";
 
+        // Fade in
         let opacity = 0;
         const fadeIn = setInterval(() => {
           if (opacity < 1) {
@@ -214,6 +215,7 @@
           }
         }, 30);
 
+        // Fade out after 5 seconds
         setTimeout(() => {
           let opacity = 1;
           const fadeOut = setInterval(() => {
@@ -226,41 +228,17 @@
             }
           }, 30);
         }, 5000);
+      }
 
-
+      // Manual close
+      if (closeBtn) {
         closeBtn.addEventListener("click", () => {
           popup.style.display = "none";
         });
       }
     }
 
-    // Fade out on link click
-    const links = document.querySelectorAll("a[href]");
-    const page = document.getElementById("page-content");
-
-    for (const link of links) {
-      const url = new URL(link.href, location.href);
-      const isSameOrigin = url.origin === location.origin;
-
-      if (isSameOrigin && !link.target && !link.href.includes('#')) {
-        link.addEventListener("click", (e) => {
-          e.preventDefault();
-          page.classList.remove("fade-in");
-          page.classList.add("fade-out");
-
-          setTimeout(() => {
-            window.location = link.href;
-          }, 150);
-        });
-      }
-    }
-        if (closeBtn) {
-          closeBtn.addEventListener("click", () => {
-            popup.style.display = "none";
-          });
-        }
-      }
-    }
+    // Fade-out on link click
     const links = document.querySelectorAll("a[href]");
     const page = document.getElementById("page-content");
 
