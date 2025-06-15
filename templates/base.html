@@ -153,7 +153,6 @@
             {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
                     <a href="{{ url_for('bookings') }}">Список бронювань</a>
-                    <a href="{{ url_for('moderate_reviews') }}" class="button">Модерація</a>
                 {% else %}
                     <a href="{{ url_for('my_bookings') }}">Мої бронювання</a>
                 {% endif %}
