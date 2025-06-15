@@ -6,9 +6,9 @@
     <title>{% block title %}Срібний лев{% endblock %}</title>
     
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,600&display=swap" rel="stylesheet">
-<main>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,600&display=swap" rel="stylesheet" />
+    
     <style>
         html, body {
             height: 100%;
@@ -23,8 +23,8 @@
 
         main {
             flex: 1;
-            padding-top: 80px; /* Відступ, щоб вміст не ховався під фіксованим header */
-            box-sizing: border-box;
+            padding-top: 140px; /* Відступ, щоб вміст не ховався під фіксованим header */
+            
         }
 
         footer {
@@ -118,6 +118,9 @@
                 {% if current_user.is_admin %}
                     <a href="{{ url_for('bookings') }}">Список бронювань</a>
                 {% else %}
+                {% if current_user.is_authenticated and current_user.is_admin %}
+    <a href="{{ url_for('moderate_reviews') }}" class="button">Модерація</a>
+{% endif %}
                     <a href="{{ url_for('my_bookings') }}">Мої бронювання</a>
                 {% endif %}
                 <a href="{{ url_for('logout') }}">Вийти ({{ current_user.username }})</a>
@@ -142,6 +145,10 @@
         <!-- Основний контент сторінки -->
         {% block content %}{% endblock %}
     </main>
+
+    <footer>
+        <p>&copy; 2024 Срібний лев. Всі права захищено.</p>
+    </footer>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -195,9 +202,5 @@
         });
       });
     </script>
-</main>
-    <footer>
-        <p>&copy; 2024 Срібний лев. Всі права захищено.</p>
-    </footer>
 </body>
 </html>

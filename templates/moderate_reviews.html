@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Модерація відгуків{% endblock %}
+
+{% block content %}
+<h2>Очікують модерації</h2>
+
+{% if reviews %}
+  <ul>
+    {% for review in reviews %}
+      <li style="margin-bottom: 10px;">
+        <strong>{{ review.name }}</strong>: {{ review.text }}
+        <form method="post" style="display:inline;">
+          <input type="hidden" name="review_id" value="{{ review.id }}">
+          <button type="submit">✅ Схвалити</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Немає нових відгуків для модерації.</p>
+{% endif %}
+{% endblock %}
