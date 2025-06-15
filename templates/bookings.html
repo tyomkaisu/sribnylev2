@@ -22,7 +22,19 @@
           {% for r in reservations %}
           <tr>
             <td>{{ r[6] }}</td>
+<<<<<<< HEAD
             <td>{{ r[7] if r[7] else r[8] }}</td>
+=======
+            <td>
+              {% if r[7] %}
+                {{ r[7] }}
+              {% elif r[8] %}
+                {{ r[8] }}
+              {% else %}
+                Не вказано
+              {% endif %}
+            </td>
+>>>>>>> 1762789 (ful)
             <td>{{ r[1] }}</td>
             <td>{{ r[2] }}</td>
             <td>{{ r[3] }}</td>

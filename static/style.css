@@ -465,6 +465,9 @@ body {
     #b8860b   /* темно-золотий (бурштиновий) */
   );
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1762789 (ful)
 }
 .menu-container {
     position: relative; /* контекст для абсолютного позиціонування */
@@ -524,6 +527,47 @@ body {
   color: #555;
 }
 
+<<<<<<< HEAD
 =======
 }
 >>>>>>> ff4e475b3250fc252d36044e67a52b4c2061b67b
+=======
+nav a.button {
+    background-color: #c0392b; /* темно-червоний */
+    color: white;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+nav a.button:hover {
+    background-color: #e74c3c;
+}
+.booking-table th {
+    background-color: #fff; /* білий фон */
+    color: #000;            /* чорний текст */
+    font-weight: bold;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.fade-in {
+    animation: fadeIn 0.1s ease forwards;
+    opacity: 0;
+}
+
+.fade-out {
+    animation: fadeOut 0.1s ease forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; }
+}
+>>>>>>> 1762789 (ful)

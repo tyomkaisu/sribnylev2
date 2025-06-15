@@ -107,6 +107,7 @@ def init_db():
         pass
 
     try:
+<<<<<<< HEAD
         c.execute("ALTER TABLE users ADD COLUMN phone TEXT")
     except sqlite3.OperationalError:
         pass  
@@ -115,6 +116,17 @@ def init_db():
         c.execute("ALTER TABLE users ADD COLUMN email TEXT")
     except sqlite3.OperationalError:
         pass
+=======
+        c.execute("ALTER TABLE users ADD COLUMN phone TEXT;")
+    except sqlite3.OperationalError:
+      print("Колонка phone вже існує або сталася помилка")
+
+    try:
+        c.execute("ALTER TABLE users ADD COLUMN email TEXT;")
+    except sqlite3.OperationalError:
+      print("Колонка email вже існує або сталася помилка")
+ 
+>>>>>>> 1762789 (ful)
 
     conn.commit()
     conn.close()
@@ -355,16 +367,43 @@ def bookings():
     conn.close()
     return render_template('bookings.html', reservations=reservations)
 
-@app.route('/my_bookings')
+@app.route('/my_bookings', methods=['GET', 'POST'])
 @login_required
 def my_bookings():
     conn = sqlite3.connect(DB)
     c = conn.cursor()
-    c.execute('SELECT id, date_from, date_to, rooms, room_type, guests FROM reservations WHERE user_id = ? ORDER BY id DESC', (current_user.id,))
+
+    if request.method == 'POST':
+        # Оновлюємо телефон і email користувача
+        phone = request.form.get('phone')
+        email = request.form.get('email')
+
+        c.execute('UPDATE users SET phone = ?, email = ? WHERE id = ?', (phone, email, current_user.id))
+        conn.commit()
+        flash("Контактні дані оновлено", "success")
+
+    # Виводимо бронювання та контактні дані
+    c.execute('''
+        SELECT id, date_from, date_to, rooms, room_type, guests
+        FROM reservations
+        WHERE user_id = ?
+        ORDER BY id DESC
+    ''', (current_user.id,))
     reservations = c.fetchall()
+
+    c.execute('SELECT phone, email FROM users WHERE id = ?', (current_user.id,))
+    user_data = c.fetchone()
     conn.close()
+<<<<<<< HEAD
     return render_template('my_bookings.html', reservations=reservations)
     
+=======
+
+    phone = user_data[0] if user_data else None
+    email = user_data[1] if user_data else None
+
+    return render_template('my_bookings.html', reservations=reservations, phone=phone, email=email)
+>>>>>>> 1762789 (ful)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -373,20 +412,26 @@ def register():
 
     if request.method == 'POST':
         username = request.form['username']
+        phone = request.form.get('phone')
+        email = request.form.get('email')
+        password = request.form['password']
+
+        print(f"DEBUG: username={username}, phone={phone}, email={email}, password={password}")
 
         if user_exists(username):
             flash("Користувач з таким логіном вже існує", "error")
             return redirect(url_for('register'))
 
-        password = request.form['password']
         if not username or not password:
             flash("Будь ласка, заповніть усі поля.", "warning")
             return redirect(url_for('register'))
 
         hashed_pw = generate_password_hash(password)
+
         conn = sqlite3.connect(DB)
         c = conn.cursor()
-        c.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_pw))
+        c.execute("INSERT INTO users (username, password, phone, email) VALUES (?, ?, ?, ?)", 
+                  (username, hashed_pw, phone, email))
         conn.commit()
         conn.close()
 
@@ -425,3 +470,11 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
+@app.route('/check_users_table')
+def check_users_table():
+    conn = sqlite3.connect(DB)
+    c = conn.cursor()
+    c.execute("PRAGMA table_info(users);")
+    columns = c.fetchall()
+    conn.close()
+    return f"<pre>{columns}</pre>"
