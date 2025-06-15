@@ -456,3 +456,92 @@ html, body {
     height: 100%;
     overflow-x: hidden;
 }
+body {
+  background: linear-gradient(135deg, 
+    #c0c0c0,  /* сріблястий */
+    #708090,  /* сірий з синім відтінком */
+    #8fbc8f,  /* приглушено-зелений (натуральний) */
+    #f5deb3,  /* світлий беж */
+    #b8860b   /* темно-золотий (бурштиновий) */
+  );
+}
+.menu-container {
+    position: relative; /* контекст для абсолютного позиціонування */
+}
+
+.menu-categories {
+    position: absolute;
+    top: 100%; /* під кнопкою меню */
+    left: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1500;
+    padding: 10px 0;
+    width: max-content; /* або фіксована ширина */
+}
+.menu-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.dish-card {
+  width: 220px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: #dfa58e;
+  transition: transform 0.2s;
+}
+
+.dish-card:hover {
+  transform: translateY(-5px);
+}
+
+.dish-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.dish-info {
+  padding: 10px;
+  text-align: center;
+}
+
+.dish-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.dish-price {
+  color: #555;
+}
+
+nav a.button {
+    background-color: #c0392b; /* темно-червоний */
+    color: white;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+nav a.button:hover {
+    background-color: #e74c3c;
+}
+.booking-table th {
+    background-color: #fff; /* білий фон */
+    color: #000;            /* чорний текст */
+    font-weight: bold;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}

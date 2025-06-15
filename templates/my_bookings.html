@@ -3,37 +3,90 @@
 {% block title %}Мої бронювання{% endblock %}
 
 {% block content %}
+<style>
+.flex-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+/* Левая панель з формою */
+.left-panel {
+    flex: 0 0 320px; /* фіксована ширина 320px */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+}
+
+/* Права панель з таблицею */
+.right-panel {
+    flex: 1; /* займає всю решту простору */
+    overflow-x: auto;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.booking-table th,
+.booking-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.booking-table th {
+    background-color: #f2f2f2;
+}
+</style>
+
 <h2>Мої бронювання</h2>
 
-{% if reservations %}
-<div class="table-container">
-    <table class="booking-table">
-        <thead>
-            <tr>
-                <th>Дата заїзду</th>
-                <th>Дата виїзду</th>
-                <th>К-сть кімнат</th>
-                <th>Тип кімнати</th>
-                <th>Гості</th>
-                <th>Статус</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for r in reservations %}
-            <tr>
-                <td>{{ r[1] }}</td>  {# date_from #}
-                <td>{{ r[2] }}</td>  {# date_to #}
-                <td>{{ r[3] }}</td>  {# rooms #}
-                <td>{{ r[4] }}</td>  {# room_type #}
-                <td>{{ r[5] }}</td>  {# guests #}
-                <td>Очікується</td>  {# Статус: hardcoded поки що #}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% else %}
-<p>У вас поки немає бронювань.</p>
-{% endif %}
+<div class="flex-container">
+  <div class="left-panel">
+    <form method="post" action="{{ url_for('my_bookings') }}">
+        <label for="phone">Телефон:</label><br>
+        <input type="text" id="phone" name="phone" value="{{ phone }}" placeholder="Не вказано"><br><br>
 
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" value="{{ email }}" placeholder="Не вказано"><br><br>
+
+        <button type="submit">Оновити контактні дані</button>
+    </form>
+  </div>
+
+  <div class="right-panel">
+    {% if reservations %}
+    <div class="table-container">
+        <table class="booking-table">
+            <thead>
+                <tr>
+                    <th>Дата заїзду</th>
+                    <th>Дата виїзду</th>
+                    <th>К-сть кімнат</th>
+                    <th>Тип кімнати</th>
+                    <th>Гості</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for r in reservations %}
+                <tr>
+                    <td>{{ r[1] }}</td>
+                    <td>{{ r[2] }}</td>
+                    <td>{{ r[3] }}</td>
+                    <td>{{ r[4] }}</td>
+                    <td>{{ r[5] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>У вас поки немає бронювань.</p>
+    {% endif %}
+  </div>
+</div>
 {% endblock %}

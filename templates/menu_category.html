@@ -6,11 +6,14 @@
   <section id="menu">
     <h2>{{ title }}</h2>
 
-    <div class="menu-item">
-      {% for dish, price in dishes %}
-        <div class="dish">
-          <p class="dish-name">{{ dish }}</p>
-          <p class="dish-price">{{ price }} грн</p>
+    <div class="menu-grid">
+      {% for dish, price, image in dishes %}
+        <div class="dish-card">
+          <img src="{{ url_for('static', filename=image) }}" alt="{{ dish }}" class="dish-image">
+          <div class="dish-info">
+            <p class="dish-name">{{ dish }}</p>
+            <p class="dish-price">{{ price }} грн</p>
+          </div>
         </div>
       {% endfor %}
     </div>

@@ -6,9 +6,9 @@
     <title>{% block title %}Срібний лев{% endblock %}</title>
     
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,600&display=swap" rel="stylesheet">
-<main>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,600&display=swap" rel="stylesheet" />
+    
     <style>
         html, body {
             height: 100%;
@@ -16,15 +16,11 @@
         }
 
         body {
-            display: flex;
-            flex-direction: column;
             font-family: 'Lora', serif;
         }
 
         main {
-            flex: 1;
-            padding-top: 80px; /* Відступ, щоб вміст не ховався під фіксованим header */
-            box-sizing: border-box;
+            padding-top: 140px;
         }
 
         footer {
@@ -39,6 +35,15 @@
             font-family: 'Lora', serif;
             font-weight: 600;
             font-style: italic;
+        }
+
+        .site-link {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .site-link:hover {
+            text-decoration: underline;
         }
 
         .flashes {
@@ -83,15 +88,34 @@
             right: 10px;
             cursor: pointer;
         }
+
+        /* Анімації */
+        .fade-in {
+            animation: fadeIn 0.0s ease forwards;
+            opacity: 0;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
     </style>
 </head>
 <body>
+<div id="page-content" class="fade-in">
+
     <header>
         <div class="logo-title">
             <img src="{{ url_for('static', filename='images/3ofLMZz.jpg') }}" alt="Логотип" class="logo" />
         </div>
 
-        <!-- Flash popup -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -106,7 +130,9 @@
         {% endwith %}
 
         <div class="header-center">
-            <h1 class="site-title">Срібний лев</h1>
+            <h1 class="site-title">
+                <a href="{{ url_for('index') }}" class="site-link">Срібний лев</a>
+            </h1>
         </div>
 
         <nav>
@@ -114,9 +140,11 @@
             <a href="{{ url_for('menu') }}">Меню</a>
             <a href="{{ url_for('contacts') }}">Контакти</a>
             <a href="{{ url_for('reservation') }}">Бронювання</a>
+
             {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
                     <a href="{{ url_for('bookings') }}">Список бронювань</a>
+                    <a href="{{ url_for('moderate_reviews') }}">Модерація</a>
                 {% else %}
                     <a href="{{ url_for('my_bookings') }}">Мої бронювання</a>
                 {% endif %}
@@ -128,7 +156,6 @@
     </header>
 
     <main>
-        <!-- Flash-повідомлення -->
         <div class="flashes">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -139,49 +166,40 @@
             {% endwith %}
         </div>
 
-        <!-- Основний контент сторінки -->
         {% block content %}{% endblock %}
     </main>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const popup = document.getElementById("popup-flash");
-        if (!popup) return;
+    <footer>
+        <p>&copy; 2024 Срібний лев. Всі права захищено.</p>
+    </footer>
 
-        const messageSpan = document.getElementById("popup-message");
-        const closeBtn = popup.querySelector(".close-btn");
-        const message = popup.dataset.message;
+</div> <!-- /page-content -->
 
-        if (message) {
-          messageSpan.textContent = message;
-          popup.style.opacity = 0;
-          popup.style.display = "block";
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Popup
+    const popup = document.getElementById("popup-flash");
+    if (popup) {
+      const messageSpan = document.getElementById("popup-message");
+      const closeBtn = popup.querySelector(".close-btn");
+      const message = popup.dataset.message;
 
-          let opacity = 0;
-          const fadeIn = setInterval(() => {
-            if (opacity < 1) {
-              opacity += 0.05;
-              popup.style.opacity = opacity;
-            } else {
-              clearInterval(fadeIn);
-            }
-          }, 30);
+      if (message) {
+        messageSpan.textContent = message;
+        popup.style.opacity = 0;
+        popup.style.display = "block";
 
-          setTimeout(() => {
-            let opacity = 1;
-            const fadeOut = setInterval(() => {
-              if (opacity > 0) {
-                opacity -= 0.05;
-                popup.style.opacity = opacity;
-              } else {
-                clearInterval(fadeOut);
-                popup.style.display = "none";
-              }
-            }, 30);
-          }, 5000);
-        }
+        let opacity = 0;
+        const fadeIn = setInterval(() => {
+          if (opacity < 1) {
+            opacity += 0.05;
+            popup.style.opacity = opacity;
+          } else {
+            clearInterval(fadeIn);
+          }
+        }, 30);
 
-        closeBtn.addEventListener("click", () => {
+        setTimeout(() => {
           let opacity = 1;
           const fadeOut = setInterval(() => {
             if (opacity > 0) {
@@ -192,12 +210,35 @@
               popup.style.display = "none";
             }
           }, 30);
+        }, 5000);
+
+        closeBtn.addEventListener("click", () => {
+          popup.style.display = "none";
         });
-      });
-    </script>
-</main>
-    <footer>
-        <p>&copy; 2024 Срібний лев. Всі права захищено.</p>
-    </footer>
+      }
+    }
+
+    // Fade out on link click
+    const links = document.querySelectorAll("a[href]");
+    const page = document.getElementById("page-content");
+
+    for (const link of links) {
+      const url = new URL(link.href, location.href);
+      const isSameOrigin = url.origin === location.origin;
+
+      if (isSameOrigin && !link.target && !link.href.includes('#')) {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          page.classList.remove("fade-in");
+          page.classList.add("fade-out");
+
+          setTimeout(() => {
+            window.location = link.href;
+          }, 150);
+        });
+      }
+    }
+  });
+</script>
 </body>
 </html>

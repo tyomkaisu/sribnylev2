@@ -10,6 +10,7 @@
         <thead>
           <tr>
             <th>Користувач</th>
+            <th>Телефон / Email</th>
             <th>Дата заїзду</th>
             <th>Дата виїзду</th>
             <th>Кількість кімнат</th>
@@ -20,7 +21,16 @@
         <tbody>
           {% for r in reservations %}
           <tr>
-            <td>{{ r[6] }}</td>  {# username #}
+            <td>{{ r[6] }}</td>
+            <td>
+              {% if r[7] %}
+                {{ r[7] }}
+              {% elif r[8] %}
+                {{ r[8] }}
+              {% else %}
+                Не вказано
+              {% endif %}
+            </td>
             <td>{{ r[1] }}</td>
             <td>{{ r[2] }}</td>
             <td>{{ r[3] }}</td>

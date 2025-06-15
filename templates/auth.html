@@ -16,17 +16,20 @@
 </div>
 
 <div class="container" id="container">
+  <!-- Форма реєстрації -->
   <div class="form-container sign-up-container">
-    <form action="{{ url_for('register') }}" method="POST">
+    <form action="{{ url_for('register') }}" method="POST" autocomplete="off">
       <h2>Створити акаунт</h2>
       <input type="text" name="username" placeholder="Ім’я користувача" required />
+     
       <input type="password" name="password" placeholder="Пароль" required />
       <button type="submit">Зареєструватися</button>
     </form>
   </div>
 
+  <!-- Форма входу -->
   <div class="form-container sign-in-container">
-    <form action="{{ url_for('login') }}" method="POST">
+    <form action="{{ url_for('login') }}" method="POST" autocomplete="off">
       <h2>Вхід</h2>
       <input type="text" name="username" placeholder="Ім’я користувача" required />
       <input type="password" name="password" placeholder="Пароль" required />
@@ -34,6 +37,7 @@
     </form>
   </div>
 
+  <!-- Оверлей з кнопками перемикання -->
   <div class="overlay-container">
     <div class="overlay">
       <div class="overlay-panel overlay-left">
@@ -52,7 +56,7 @@
 
 <script>
   const container = document.getElementById('container');
-  const activeForm = "{{ active_form }}";
+  const activeForm = "{{ active_form|default('login') }}";
 
   if (activeForm === "register") {
     container.classList.add("right-panel-active");
