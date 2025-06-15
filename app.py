@@ -107,24 +107,6 @@ def init_db():
         pass
 
     try:
-        
-        c.execute("ALTER TABLE users ADD COLUMN phone TEXT")
-    except sqlite3.OperationalError:
-        pass  
-
-    try:
-        c.execute("ALTER TABLE users ADD COLUMN email TEXT")
-    except sqlite3.OperationalError:
-        pass
-
-        c.execute("ALTER TABLE users ADD COLUMN phone TEXT;")
-    except sqlite3.OperationalError:
-      print("Колонка phone вже існує або сталася помилка")
-
-    try:
-        c.execute("ALTER TABLE users ADD COLUMN email TEXT;")
-    except sqlite3.OperationalError:
-      print("Колонка email вже існує або сталася помилка")
 
     conn.commit()
     conn.close()
