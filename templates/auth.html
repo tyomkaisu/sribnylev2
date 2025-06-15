@@ -18,12 +18,21 @@
 <div class="container" id="container">
   <div class="form-container sign-up-container">
     <form action="{{ url_for('register') }}" method="POST">
+<<<<<<< HEAD
   <h2>Створити акаунт</h2>
   <input type="text" name="username" placeholder="Ім’я користувача" required />
   <input type="text" name="contact" placeholder="Email або номер телефону" required />
   <input type="password" name="password" placeholder="Пароль" required />
   <button type="submit">Зареєструватися</button>
 </form>
+=======
+      <h2>Створити акаунт</h2>
+      <input type="text" name="username" placeholder="Ім’я користувача" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Пароль" required />
+      <button type="submit">Зареєструватися</button>
+    </form>
+>>>>>>> ff4e475b3250fc252d36044e67a52b4c2061b67b
   </div>
 
   <div class="form-container sign-in-container">
