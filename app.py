@@ -107,7 +107,7 @@ def init_db():
         pass
 
     try:
-<<<<<<< HEAD
+        
         c.execute("ALTER TABLE users ADD COLUMN phone TEXT")
     except sqlite3.OperationalError:
         pass  
@@ -116,7 +116,7 @@ def init_db():
         c.execute("ALTER TABLE users ADD COLUMN email TEXT")
     except sqlite3.OperationalError:
         pass
-=======
+
         c.execute("ALTER TABLE users ADD COLUMN phone TEXT;")
     except sqlite3.OperationalError:
       print("Колонка phone вже існує або сталася помилка")
@@ -125,8 +125,6 @@ def init_db():
         c.execute("ALTER TABLE users ADD COLUMN email TEXT;")
     except sqlite3.OperationalError:
       print("Колонка email вже існує або сталася помилка")
- 
->>>>>>> 1762789 (ful)
 
     conn.commit()
     conn.close()
@@ -394,16 +392,15 @@ def my_bookings():
     c.execute('SELECT phone, email FROM users WHERE id = ?', (current_user.id,))
     user_data = c.fetchone()
     conn.close()
-<<<<<<< HEAD
+
     return render_template('my_bookings.html', reservations=reservations)
     
-=======
 
     phone = user_data[0] if user_data else None
     email = user_data[1] if user_data else None
 
     return render_template('my_bookings.html', reservations=reservations, phone=phone, email=email)
->>>>>>> 1762789 (ful)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
