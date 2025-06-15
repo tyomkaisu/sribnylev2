@@ -106,14 +106,12 @@ def init_db():
     except sqlite3.OperationalError:
         pass
 
-    try:
-
     conn.commit()
     conn.close()
 
 init_db()
 
-@app.route('/')
+@app.route('/')git add app.py
 def index():
     return render_template('index.html')
 
