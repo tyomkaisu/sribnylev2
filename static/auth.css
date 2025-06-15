@@ -273,3 +273,20 @@ body {
     #b8860b   /* темно-золотий (бурштиновий) */
   );
 }
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+}

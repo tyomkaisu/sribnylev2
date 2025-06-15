@@ -4,32 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Срібний лев{% endblock %}</title>
-    
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,600&display=swap" rel="stylesheet" />
-    
+
     <style>
         html, body {
             height: 100%;
             margin: 0;
+            padding: 0;
         }
 
         body {
+            display: flex;
+            flex-direction: column;
             font-family: 'Lora', serif;
         }
 
-        main {
-
-            padding-top: 140px;
-
-
+        #page-wrapper {
             flex: 1;
-            padding-top: 140px; /* Відступ, щоб вміст не ховався під фіксованим header */
-            
+            display: flex;
+            flex-direction: column;
+        }
 
-            padding-top: 140px;
-
+        main {
+            flex: 1;
+            padding-top: 140px; /* Відступ під фіксований header */
         }
 
         footer {
@@ -118,8 +119,7 @@
     </style>
 </head>
 <body>
-<div id="page-content" class="fade-in">
-
+<div id="page-wrapper">
     <header>
         <div class="logo-title">
             <img src="{{ url_for('static', filename='images/3ofLMZz.jpg') }}" alt="Логотип" class="logo" />
@@ -153,10 +153,8 @@
             {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
                     <a href="{{ url_for('bookings') }}">Список бронювань</a>
+                    <a href="{{ url_for('moderate_reviews') }}" class="button">Модерація</a>
                 {% else %}
-                {% if current_user.is_authenticated and current_user.is_admin %}
-    <a href="{{ url_for('moderate_reviews') }}" class="button">Модерація</a>
-{% endif %}
                     <a href="{{ url_for('my_bookings') }}">Мої бронювання</a>
                 {% endif %}
                 <a href="{{ url_for('logout') }}">Вийти ({{ current_user.username }})</a>
@@ -166,35 +164,33 @@
         </nav>
     </header>
 
-    <main>
-        <div class="flashes">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
+    <div id="page-content" class="fade-in">
+        <main>
+            <div class="flashes">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
 
-        {% block content %}{% endblock %}
-    </main>
+            {% block content %}{% endblock %}
+        </main>
+    </div> <!-- /page-content -->
+</div> <!-- /page-wrapper -->
 
-    <footer>
-        <p>&copy; 2024 Срібний лев. Всі права захищено.</p>
-    </footer>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const popup = document.getElementById("popup-flash");
-        if (!popup) return;
-</div> <!-- /page-content -->
+<footer>
+    <p>&copy; 2024 Срібний лев. Всі права захищено.</p>
+</footer>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     // Popup flash message
     const popup = document.getElementById("popup-flash");
     const messageSpan = document.getElementById("popup-message");
-    
+
     if (popup) {
       const message = popup.dataset.message;
       const closeBtn = popup.querySelector(".close-btn");
