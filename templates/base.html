@@ -20,7 +20,17 @@
         }
 
         main {
+<<<<<<< HEAD
             padding-top: 140px;
+=======
+
+            flex: 1;
+            padding-top: 140px; /* Відступ, щоб вміст не ховався під фіксованим header */
+            
+
+            padding-top: 140px;
+
+>>>>>>> c6c92252a3696ebb55546a6f86b8a73ea4472e53
         }
 
         footer {
@@ -146,6 +156,9 @@
                     <a href="{{ url_for('bookings') }}">Список бронювань</a>
                     <a href="{{ url_for('moderate_reviews') }}">Модерація</a>
                 {% else %}
+                {% if current_user.is_authenticated and current_user.is_admin %}
+    <a href="{{ url_for('moderate_reviews') }}" class="button">Модерація</a>
+{% endif %}
                     <a href="{{ url_for('my_bookings') }}">Мої бронювання</a>
                 {% endif %}
                 <a href="{{ url_for('logout') }}">Вийти ({{ current_user.username }})</a>
@@ -172,6 +185,15 @@
     <footer>
         <p>&copy; 2024 Срібний лев. Всі права захищено.</p>
     </footer>
+<<<<<<< HEAD
+=======
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const popup = document.getElementById("popup-flash");
+        if (!popup) return;
+>>>>>>> c6c92252a3696ebb55546a6f86b8a73ea4472e53
 
 </div> <!-- /page-content -->
 
@@ -184,7 +206,11 @@
       const closeBtn = popup.querySelector(".close-btn");
       const message = popup.dataset.message;
 
+<<<<<<< HEAD
       if (message) {
+=======
+      if (message && messageSpan) {
+>>>>>>> c6c92252a3696ebb55546a6f86b8a73ea4472e53
         messageSpan.textContent = message;
         popup.style.opacity = 0;
         popup.style.display = "block";
@@ -212,6 +238,7 @@
           }, 30);
         }, 5000);
 
+<<<<<<< HEAD
         closeBtn.addEventListener("click", () => {
           popup.style.display = "none";
         });
@@ -238,6 +265,38 @@
         });
       }
     }
+=======
+        if (closeBtn) {
+          closeBtn.addEventListener("click", () => {
+            popup.style.display = "none";
+          });
+        }
+      }
+    }
+
+    // Fade out on link click
+    const links = document.querySelectorAll("a[href]");
+    const page = document.getElementById("page-content");
+
+    for (const link of links) {
+      const url = new URL(link.href, location.href);
+      const isSameOrigin = url.origin === location.origin;
+
+      if (isSameOrigin && !link.target && !link.href.includes('#')) {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (page) {
+            page.classList.remove("fade-in");
+            page.classList.add("fade-out");
+          }
+
+          setTimeout(() => {
+            window.location = link.href;
+          }, 150);
+        });
+      }
+    }
+>>>>>>> c6c92252a3696ebb55546a6f86b8a73ea4472e53
   });
 </script>
 </body>

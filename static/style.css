@@ -464,6 +464,13 @@ body {
     #f5deb3,  /* світлий беж */
     #b8860b   /* темно-золотий (бурштиновий) */
   );
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1762789 (ful)
+>>>>>>> c6c92252a3696ebb55546a6f86b8a73ea4472e53
 }
 .menu-container {
     position: relative; /* контекст для абсолютного позиціонування */
@@ -523,6 +530,14 @@ body {
   color: #555;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+}
+>>>>>>> ff4e475b3250fc252d36044e67a52b4c2061b67b
+=======
+>>>>>>> c6c92252a3696ebb55546a6f86b8a73ea4472e53
 nav a.button {
     background-color: #c0392b; /* темно-червоний */
     color: white;
@@ -545,3 +560,23 @@ nav a.button:hover {
     padding: 8px;
     text-align: center;
 }
+<<<<<<< HEAD
+=======
+.fade-in {
+    animation: fadeIn 0.1s ease forwards;
+    opacity: 0;
+}
+
+.fade-out {
+    animation: fadeOut 0.1s ease forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; }
+}
+>>>>>>> 1762789 (ful)
+>>>>>>> c6c92252a3696ebb55546a6f86b8a73ea4472e53
